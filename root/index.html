@@ -17,6 +17,30 @@
                 </div>
 
                 <div class="terminal-main" role="region" aria-label="Terminal Interface">
+                    <div class="terminal-header">
+                        <div class="terminal-header-left">
+                            <div class="terminal-header-button red"></div>
+                            <div class="terminal-header-button yellow"></div>
+                            <div class="terminal-header-button green"></div>
+                            <span class="terminal-title">visitor@project-terminal:~</span>
+                        </div>
+                        <div class="terminal-header-right">
+                        </div>
+                    </div>
+
+                    <div class="terminal-content">
+                        <div class="output-container" role="log" aria-live="polite"></div>
+                        <div class="prompt">
+                            <span class="prompt-symbol" aria-hidden="true"></span>
+                            <input
+                                type="text"
+                                class="command-input"
+                                placeholder="Type 'help' for available commands"
+                                aria-label="Terminal input"
+                                autocomplete="off"
+                            >
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
