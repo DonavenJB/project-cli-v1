@@ -188,3 +188,75 @@ body {
     color: var(--text-secondary);
     font-size: var(--font-size-sm);
 }
+
+/* Terminal content */
+.terminal-content {
+    flex: 1;
+    overflow-y: auto;
+    background: var(--bg-primary);
+    font-size: var(--font-size-sm);
+    line-height: 1.2;
+}
+
+/* Prompts & Outputs */
+.output-container {
+    margin-bottom: 0 !important;
+}
+
+.prompt {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.01rem;
+    margin: 0.1rem 0;
+    color: #fff;
+}
+
+.prompt-symbol {
+    color: var(--accent-green);
+    margin-right: 0.5rem;
+}
+
+.command-input {
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    font-family: var(--font-mono);
+    font-size: var(--font-size-base);
+    width: 100%;
+    outline: none;
+    padding: 0;
+}
+
+.command-input:focus {
+    outline: none;
+}
+
+.output {
+    color: var(--text-secondary);
+    margin: 0.1rem 0;
+    white-space: pre-wrap;
+    padding-left: 1.5rem;
+}
+
+.error {
+    color: var(--error-red);
+    margin: 0.5rem 0;
+    padding-left: 1.5rem;
+}
+
+.output strong {
+    color: #FF605C;
+    font-weight: bold;
+}
+
+.output strong.title-strong {
+    color: var(--accent-green);
+    font-weight: bold;
+}
+
+.prompt-prefix-container {
+    display: flex;
+    grid-column: 1/2;
+    margin: 0;
+    padding: 0;
+}
