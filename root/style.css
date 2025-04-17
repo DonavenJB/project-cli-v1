@@ -260,3 +260,66 @@ body {
     margin: 0;
     padding: 0;
 }
+
+/* Sidebar Content Styling */
+.course-meta {
+    font-size: var(--font-size-sm);
+    color: var(--text-secondary);
+    margin-bottom: var(--space-md);
+}
+
+.project-tagline {
+    font-size: var(--font-size-lg);
+    color: var(--accent-blue);
+    margin-bottom: var(--space-lg);
+}
+
+.project-summary {
+    font-size: var(--font-size-base);
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: var(--space-md);
+}
+
+.project-summary strong {
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+.project-title {
+    font-size: 2.5rem;
+    line-height: 1.1;
+    font-weight: 800;
+    text-transform: uppercase;
+    text-align: center;
+    margin: 2.5rem 0;
+}
+
+/* Force the image to float left, maintaining inline alignment and column flow for subsequent content */
+.profile-photo {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--accent-green);
+    float: left;
+    margin-right: 0.5in !important;
+    margin-top: 15px !important;
+    margin-bottom: 0;
+}
+
+/* Style the Title to flow around the floating image and fix the wrapping */
+.project-title {
+    display: block;
+    white-space: nowrap;
+    margin-left: 0 !important;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    text-align: left;
+}
+
+/* Clear the float after the floating elements */
+.project-details {
+    clear: left;
+    margin-top: var(--space-lg);
+}
