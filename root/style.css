@@ -400,3 +400,155 @@ body {
     height: auto;
     margin-bottom: var(--space-md);
 }
+
+/* Adjust spacing between sections */
+.project-details>* {
+    margin-bottom: 1rem;
+}
+
+.project-summary {
+    margin-top: 0.5rem;
+}
+
+.skills-section {
+    margin-top: 1.5rem;
+}
+
+.skills-title {
+    font-size: var(--font-size-base);
+    margin-bottom: 0.5rem;
+}
+
+.terminal-sidebar {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+
+/* Fix mobile layout issues by reducing large title sizes and ensuring no overflow on small screens */
+@media (max-width: 480px) {
+    .project-title {
+        font-size: clamp(1.6rem, 6vw, 2.5rem);
+        word-wrap: break-word;
+        overflow-wrap: anywhere;
+    }
+
+    .terminal-sidebar {
+        padding: 1rem;
+    }
+
+    .skill-photo {
+        width: 80px;
+        height: auto;
+    }
+}
+
+/* Scale terminal on larger screens to fill the entire viewport */
+@media (min-width: 1200px) {
+    .terminal-wrapper {
+        height: 100vh;
+        max-height: 100%;
+    }
+
+    .terminal {
+        height: 100%;
+    }
+}
+
+/* On mobile, remove fixed 100vh and allow normal scrolling so the input is more accessible */
+@media (max-width: 768px) {
+    /* Let html/body scroll freely */
+    html,
+    body {
+        height: auto;
+        overflow-y: auto;
+        position: static;
+        margin: 0;
+        padding: 0;
+    }
+
+    .terminal-container {
+        height: auto;
+        min-height: 100vh;
+        align-items: flex-start;
+        overflow: visible;
+    }
+
+    .terminal {
+        grid-template-columns: 1fr;
+        height: auto;
+        max-width: 100%;
+    }
+
+    .terminal-sidebar {
+        padding: 1rem;
+        border-right: none;
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .terminal-main {
+        margin: 0;
+        border-radius: 0;
+        border-left: none;
+        border-right: none;
+        padding: 1rem;
+        min-height: 50vh;
+    }
+
+    .terminal-header {
+        padding: 0.75rem 1rem;
+        position: sticky;
+        top: 0;
+        z-index: 10;
+    }
+
+    .terminal-title {
+        font-size: var(--font-size-xs);
+    }
+
+    .command-input {
+        font-size: 16px;
+    }
+
+    .output {
+        font-size: 0.9em;
+    }
+
+    .skill-cards-container {
+        grid-template-columns: 1fr 1fr;
+        gap: var(--space-md);
+    }
+}
+
+/* Even smaller screens */
+@media (max-width: 380px) {
+    .terminal-sidebar {
+        padding: 1rem;
+    }
+
+    .terminal-main {
+        padding: 1rem;
+    }
+
+    .command-input {
+        font-size: 16px;
+    }
+}
+
+/* Final Polish: Unify backgrounds and add focus state */
+.terminal,
+.terminal-container,
+.terminal-main,
+.terminal-content {
+    background: var(--bg-primary) !important;
+}
+
+.terminal-sidebar {
+    background: var(--bg-primary) !important;
+}
+
+/* Add a visible outline to confirm focus is moving to these areas */
+.terminal-sidebar:focus,
+.terminal-main:focus {
+    outline: 2px dashed #00ff00;
+    outline-offset: 4px;
+}
