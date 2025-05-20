@@ -1,5 +1,3 @@
-// Implementation of the User Experience (UX) Module containing all DOM handlers, 
-// the input loop, command history, and the typewriter welcome effect.
 function typeWriter(text, targetElement, speed = 25) {
     let i = 0;
     const liveInput = document.querySelector('.command-input');
@@ -28,3 +26,11 @@ function typeWriter(text, targetElement, speed = 25) {
     liveInput.setAttribute('placeholder', '');
     type();
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+    const input = document.querySelector('.command-input');
+    const output = document.querySelector('.output-container');
+    const terminal = document.querySelector('.terminal-content');
+    const promptContainer = document.querySelector('.prompt');
+    const promptSymbol = document.querySelector('.prompt-symbol');
+});
