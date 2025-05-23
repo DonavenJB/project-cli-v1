@@ -33,4 +33,14 @@ document.addEventListener('DOMContentLoaded', function() {
     const terminal = document.querySelector('.terminal-content');
     const promptContainer = document.querySelector('.prompt');
     const promptSymbol = document.querySelector('.prompt-symbol');
+    
+    // Initial prompt setup
+    if (promptContainer && promptSymbol) {
+        const prefixSpan = document.createElement('span');
+        prefixSpan.className = 'prompt-text-prefix';
+        prefixSpan.textContent = 'visitor@cli'; 
+        promptContainer.insertBefore(prefixSpan, promptSymbol);
+        
+        promptSymbol.textContent = '>';
+    }
 });
