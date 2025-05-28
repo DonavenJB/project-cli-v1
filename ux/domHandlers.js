@@ -43,4 +43,35 @@ document.addEventListener('DOMContentLoaded', function() {
         
         promptSymbol.textContent = '>';
     }
+    
+    function scrollToBottom() {
+        if (terminal) terminal.scrollTop = terminal.scrollHeight;
+    }
+    window.originalKeydownHandler = function(e) {
+        if (e.key === 'Enter') {
+            const cmd = this.value.trim();
+            if (cmd) {
+                const promptLine = document.createElement('div');
+                promptLine.className = 'prompt echo-line';
+                
+                promptLine.innerHTML = createDynamicPromptHTML(cmd); 
+                output.appendChild(promptLine);
+                
+                const result = window.commands.process(cmd);
+                if (result) {
+                    const outputLine = document.createElement('div');
+                    outputLine.className = 'output';
+                    if (result instanceof HTMLElement) {
+                        outputLine.appendChild(result);
+                    } else {
+            	           outputLine.innerHTML = formatOutputForHTML(result);
+            	       }
+      	             output.appendChild(outputLine);
+          	     }
+          	     this.value = '';
+      	         scrollToBottom();
+          	 }
+        }
+    };
+    if (input) input.addEventListener('keydown', window.originalKeydownHandler);
 });
