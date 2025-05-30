@@ -38,40 +38,76 @@ document.addEventListener('DOMContentLoaded', function() {
     if (promptContainer && promptSymbol) {
         const prefixSpan = document.createElement('span');
         prefixSpan.className = 'prompt-text-prefix';
-        prefixSpan.textContent = 'visitor@cli'; 
-        promptContainer.insertBefore(prefixSpan, promptSymbol);
-        
-        promptSymbol.textContent = '>';
+    	  prefixSpan.textContent = 'visitor@cli'; 
+    	  promptContainer.insertBefore(prefixSpan, promptSymbol);
+    	  
+    	  promptSymbol.textContent = '>';
     }
     
     function scrollToBottom() {
-        if (terminal) terminal.scrollTop = terminal.scrollHeight;
+    	  if (terminal) terminal.scrollTop = terminal.scrollHeight;
     }
     window.originalKeydownHandler = function(e) {
-        if (e.key === 'Enter') {
-            const cmd = this.value.trim();
-            if (cmd) {
-                const promptLine = document.createElement('div');
-                promptLine.className = 'prompt echo-line';
-                
-                promptLine.innerHTML = createDynamicPromptHTML(cmd); 
-                output.appendChild(promptLine);
-                
-                const result = window.commands.process(cmd);
-                if (result) {
-                    const outputLine = document.createElement('div');
-                    outputLine.className = 'output';
-                    if (result instanceof HTMLElement) {
-                        outputLine.appendChild(result);
-                    } else {
-            	           outputLine.innerHTML = formatOutputForHTML(result);
-            	       }
-      	             output.appendChild(outputLine);
-          	     }
-          	     this.value = '';
-      	         scrollToBottom();
-          	 }
-        }
+    	  if (e.key === 'Enter') {
+    	 	 const cmd = this.value.trim();
+    	 	 if (cmd) {
+    	 	 	 const promptLine = document.createElement('div');
+    	 	 	 promptLine.className = 'prompt echo-line';
+    	 	 	 
+    	 	 	 promptLine.innerHTML = createDynamicPromptHTML(cmd); 
+    	 	 	 output.appendChild(promptLine);
+    	 	 	 
+    	 	 	 const result = window.commands.process(cmd);
+    	 	 	 if (result) {
+    	 	 	 	 const outputLine = document.createElement('div');
+    	 	 	 	 outputLine.className = 'output';
+  	 	 	 	 	 if (result instanceof HTMLElement) {
+  	 	 	 	 	 	 outputLine.appendChild(result);
+  	 	 	 	 	 } else {
+  	 	 	 	 	 	 outputLine.innerHTML = formatOutputForHTML(result);
+  	 	 	 	 	 }
+  	 	 	 	 	 output.appendChild(outputLine);
+  	 	 	 	 }
+  	 	 	 	 this.value = '';
+    	 	 	 	 scrollToBottom();
+    	 	 	 }
+    	 	 }
     };
     if (input) input.addEventListener('keydown', window.originalKeydownHandler);
+    
+    const inputElement = document.querySelector('.command-input');
+    const outputContainer = document.querySelector('.output-container');
+  	  let commandHistory = [];
+  	  let historyIndex = -1;
+  	  
+  	  const welcomeText = "Welcome to the Project Terminal. Type 'about' or 'help'."; 
+  	  const liveInputPrompt = document.querySelector('.command-input');
+  	  
+  	  function startTypewriterWelcome() {
+  	 	 if (!liveInputPrompt) return;
+    	 liveInputPrompt.style.display = 'none';
+  	 	 
+  	 	 let typingIndex = 0;
+  	 	 const typingSpeed = 25;
+  	 	 
+  	 	 function type() {
+  	 	 	 if (typingIndex < welcomeText.length) {
+  	 	 	 	 liveInputPrompt.setAttribute('placeholder', (liveInputPrompt.getAttribute('placeholder') || '') + welcomeText.charAt(typingIndex));
+  	 	 	 	 typingIndex++;
+  	 	 	 	 typingInterval = setTimeout(type, typingSpeed);
+  	 	 	 } else {
+  	 	 	 	 clearTimeout(typingInterval);
+  	 	 	 	 const finalPromptEcho = document.createElement('div');
+  	 	 	 	 finalPromptEcho.className = 'prompt echo-line';
+  	 	 	 	 finalPromptEcho.innerHTML = safeCreatePromptHTML(welcomeText); 
+  	 	 	 	 outputContainer.appendChild(finalPromptEcho);
+  	 	 	 	 liveInputPrompt.setAttribute('placeholder', "Type 'help' for available commands");
+  	 	 	 	 liveInputPrompt.style.display = 'block';
+  	 	 	 	 if (terminal) terminal.scrollTop = terminal.scrollHeight;
+  	 	 	 }
+  	 	 }
+  	 	 liveInputPrompt.style.display = 'block';
+  	 	 liveInputPrompt.setAttribute('placeholder', '');
+  	 	 type();
+  	 }
 });
