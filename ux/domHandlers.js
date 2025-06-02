@@ -6,21 +6,21 @@ function typeWriter(text, targetElement, speed = 25) {
     function type() {
         if (i < text.length) {
             liveInput.setAttribute('placeholder', liveInput.getAttribute('placeholder') + text.charAt(i));
-            i++;
-            typingInterval = setTimeout(type, speed);
+          	  i++;
+          	  typingInterval = setTimeout(type, speed);
         } else {
-            clearTimeout(typingInterval);
-            const outputContainer = document.querySelector('.output-container');
-            const terminal = document.querySelector('.terminal-content');
-            const finalTypedText = liveInput.getAttribute('placeholder') || '';
-            liveInput.setAttribute('placeholder', originalPlaceholder);
-            const finalPromptEcho = document.createElement('div');
-            finalPromptEcho.className = 'prompt echo-line';
-            finalPromptEcho.innerHTML = safeCreatePromptHTML(finalTypedText); 
-            outputContainer.appendChild(finalPromptEcho);
-            liveInput.style.display = 'block';
-            if (terminal) terminal.scrollTop = terminal.scrollHeight;
-        }
+          	  clearTimeout(typingInterval);
+          	  const outputContainer = document.querySelector('.output-container');
+          	  const terminal = document.querySelector('.terminal-content');
+          	  const finalTypedText = liveInput.getAttribute('placeholder') || '';
+      	   	  liveInput.setAttribute('placeholder', originalPlaceholder);
+      	   	  const finalPromptEcho = document.createElement('div');
+      	   	  finalPromptEcho.className = 'prompt echo-line';
+    	 	   	  finalPromptEcho.innerHTML = safeCreatePromptHTML(finalTypedText); 
+    	 	   	  outputContainer.appendChild(finalPromptEcho);
+    	 	   	  liveInput.style.display = 'block';
+  	 	   	 	  if (terminal) terminal.scrollTop = terminal.scrollHeight;
+    	   	  }
     }
     liveInput.style.display = 'block';
     liveInput.setAttribute('placeholder', '');
@@ -52,15 +52,15 @@ document.addEventListener('DOMContentLoaded', function() {
     	 	 const cmd = this.value.trim();
     	 	 if (cmd) {
     	 	 	 const promptLine = document.createElement('div');
-    	 	 	 promptLine.className = 'prompt echo-line';
+  	 	 	 	 promptLine.className = 'prompt echo-line';
     	 	 	 
     	 	 	 promptLine.innerHTML = createDynamicPromptHTML(cmd); 
     	 	 	 output.appendChild(promptLine);
     	 	 	 
     	 	 	 const result = window.commands.process(cmd);
     	 	 	 if (result) {
-    	 	 	 	 const outputLine = document.createElement('div');
-    	 	 	 	 outputLine.className = 'output';
+  	 	 	 	 	 const outputLine = document.createElement('div');
+  	 	 	 	 	 outputLine.className = 'output';
   	 	 	 	 	 if (result instanceof HTMLElement) {
   	 	 	 	 	 	 outputLine.appendChild(result);
   	 	 	 	 	 } else {
@@ -109,5 +109,57 @@ document.addEventListener('DOMContentLoaded', function() {
   	 	 liveInputPrompt.style.display = 'block';
   	 	 liveInputPrompt.setAttribute('placeholder', '');
   	 	 type();
+  	 }
+  	 
+  	 if (inputElement) {
+  	 	 inputElement.addEventListener('keydown', async function(e) {
+  	 	 	 if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+  	 	 	 	 e.preventDefault();
+  	 	 	 	 if (commandHistory.length === 0 || typingInterval) return;
+  	 	 	 	 if (e.key === 'ArrowUp') historyIndex = Math.min(historyIndex + 1, commandHistory.length - 1); else historyIndex = Math.max(historyIndex - 1, -1);
+  	 	 	 	 this.value = historyIndex === -1 ? '' : commandHistory[historyIndex];
+  	 	 	 }
+  	 	 	 if (e.key === 'Enter') {
+  	 	 	 	 if (typingInterval) return;
+  	 	 	 	 const val = this.value.trim(); 
+  	 	 	 	 this.value = '';
+  	 	 	 	 if (val) {
+  	 	 	 	 	 commandHistory.unshift(val);
+  	 	 	 	 	 historyIndex = -1;
+  	 	 	 	 	 
+  	 	 	 	 	 const result = window.commands.process(val);
+  	 	 	 	 	 
+  	 	 	 	 	 if (result !== undefined && result !== null && result !== '') { 
+  	 	 	 	 	 	 
+  	 	 	 	 	 	 const commandEcho = document.createElement('div');
+  	 	 	 	 	 	 commandEcho.className = 'prompt echo-line';
+  	 	 	 	 	 	 commandEcho.innerHTML = createDynamicPromptHTML(val); 
+  	 	 	 	 	 	 outputContainer.appendChild(commandEcho);
+  	 	 	 	 	 	 
+  	 	 	 	 	 	 if (result === 'CLEAR') { 
+  	 	 	 	 	 	 	 outputContainer.innerHTML = '';
+  	 	 	 	 	 	 } else {
+  	 	 	 	 	 	 	 const outputLine = document.createElement('div');
+  	 	 	 	 	 	 	 outputLine.className = 'output';
+  	 	 	 	 	 	 	 
+  	 	 	 	 	 	 	 outputLine.innerHTML = formatOutputForHTML(result);
+  	 	 	 	 	 	 	 outputContainer.appendChild(outputLine);
+  	 	 	 	 	 	 }
+  	 	 	 	 	 	 
+  	 	 	 	 	 	 scrollToBottom();
+    	 	 	 	 	 	 
+  	 	 	 	 	 } else if (result === '') {
+  	 	 	 	 	 	 if (val.toLowerCase() === 'clear') {
+  	 	 	 	 	 	 	 const commandEcho = document.createElement('div');
+  	 	 	 	 	 	 	 commandEcho.className = 'prompt echo-line';
+  	 	 	 	 	 	 	 commandEcho.innerHTML = createDynamicPromptHTML(val); 
+  	 	 	 	 	 	 	 outputContainer.innerHTML = ''; 
+  	 	 	 	 	 	 	 outputContainer.appendChild(commandEcho); 
+  	 	 	 	 	 	 }
+  	 	 	 	 	 	 scrollToBottom();
+  	 	 	 	 	 }
+  	 	 	 	 }
+  	 	 	 }
+  	 	 });
   	 }
 });
