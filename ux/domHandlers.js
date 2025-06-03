@@ -5,22 +5,22 @@ function typeWriter(text, targetElement, speed = 25) {
     const originalPlaceholder = liveInput.placeholder || '';
     function type() {
         if (i < text.length) {
-            liveInput.setAttribute('placeholder', liveInput.getAttribute('placeholder') + text.charAt(i));
-          	  i++;
-          	  typingInterval = setTimeout(type, speed);
-        } else {
-          	  clearTimeout(typingInterval);
-          	  const outputContainer = document.querySelector('.output-container');
-          	  const terminal = document.querySelector('.terminal-content');
-          	  const finalTypedText = liveInput.getAttribute('placeholder') || '';
-      	   	  liveInput.setAttribute('placeholder', originalPlaceholder);
-      	   	  const finalPromptEcho = document.createElement('div');
-      	   	  finalPromptEcho.className = 'prompt echo-line';
-    	 	   	  finalPromptEcho.innerHTML = safeCreatePromptHTML(finalTypedText); 
-    	 	   	  outputContainer.appendChild(finalPromptEcho);
-    	 	   	  liveInput.style.display = 'block';
-  	 	   	 	  if (terminal) terminal.scrollTop = terminal.scrollHeight;
-    	   	  }
+      	 	 liveInput.setAttribute('placeholder', liveInput.getAttribute('placeholder') + text.charAt(i));
+      	 	 i++;
+      	 	 typingInterval = setTimeout(type, speed);
+      	 } else {
+      	 	 clearTimeout(typingInterval);
+      	 	 const outputContainer = document.querySelector('.output-container');
+      	 	 const terminal = document.querySelector('.terminal-content');
+      	 	 const finalTypedText = liveInput.getAttribute('placeholder') || '';
+      	 	 liveInput.setAttribute('placeholder', originalPlaceholder);
+      	 	 const finalPromptEcho = document.createElement('div');
+      	 	 finalPromptEcho.className = 'prompt echo-line';
+      	 	 finalPromptEcho.innerHTML = safeCreatePromptHTML(finalTypedText); 
+      	 	 outputContainer.appendChild(finalPromptEcho);
+      	 	 liveInput.style.display = 'block';
+      	 	 if (terminal) terminal.scrollTop = terminal.scrollHeight;
+      	 }
     }
     liveInput.style.display = 'block';
     liveInput.setAttribute('placeholder', '');
@@ -52,13 +52,13 @@ document.addEventListener('DOMContentLoaded', function() {
     	 	 const cmd = this.value.trim();
     	 	 if (cmd) {
     	 	 	 const promptLine = document.createElement('div');
-  	 	 	 	 promptLine.className = 'prompt echo-line';
+    	 	 	 promptLine.className = 'prompt echo-line';
     	 	 	 
     	 	 	 promptLine.innerHTML = createDynamicPromptHTML(cmd); 
     	 	 	 output.appendChild(promptLine);
     	 	 	 
     	 	 	 const result = window.commands.process(cmd);
-    	 	 	 if (result) {
+  	 	 	 	 if (result) {
   	 	 	 	 	 const outputLine = document.createElement('div');
   	 	 	 	 	 outputLine.className = 'output';
   	 	 	 	 	 if (result instanceof HTMLElement) {
@@ -160,6 +160,15 @@ document.addEventListener('DOMContentLoaded', function() {
   	 	 	 	 	 }
   	 	 	 	 }
   	 	 	 }
+  	 	 });
+  	 }
+  	 if (liveInputPrompt) {
+  	 	 liveInputPrompt.style.display = 'none';
+  	 	 startTypewriterWelcome();
+  	 }
+  	 if (inputElement) {
+  	 	 inputElement.addEventListener('focus', () => {
+  	 	 	 if (window.innerWidth < 768) inputElement.scrollIntoView({behavior: 'smooth', block: 'center'});
   	 	 });
   	 }
 });
