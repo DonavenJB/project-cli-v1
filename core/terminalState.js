@@ -28,3 +28,10 @@ function updateLivePromptPrefix() {
         promptSymbolElement.textContent = '>';
     }
 }
+
+window.commands = {
+    help: "Available commands:\nabout       View information about the creator.\nprojects    View details of my projects.\nstack       View the technology stack used.\nclear       Clears the terminal history.\nhelp        Displays this list of commands.\ndemo        Run a simple command demo.\nexit        Exit the current mode.", 
+    about: "<strong class=\"title-strong\">PROJECT TERMINAL</strong>\n\nThis interface showcases Donaven Bruce's backend and service development work.\n\n- Focus: RESTful API design, Java & Spring Boot frameworks.\n\n- Connect: View source code on GitHub or contact via LinkedIn (links available in the sidebar).\n\nFuture Plans:\n\nThe current service will be integrated with a client-side frontend (React/JavaScript) soon.",
+    stack: "<strong class=\"title-strong\">Current Stack Breakdown</strong>\n\nProject: **String Puzzles API**\n\n- Language: Java 21\n\n- Framework: Spring Boot 3.x\n\n- Architecture: RESTful Monolith Service\n\n- Status: Stable, Ready for client integration.",
+    clear: 'CLEAR'
+};
