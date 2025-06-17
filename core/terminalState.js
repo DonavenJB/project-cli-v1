@@ -31,7 +31,22 @@ function updateLivePromptPrefix() {
 
 window.commands = {
     help: "Available commands:\nabout       View information about the creator.\nprojects    View details of my projects.\nstack       View the technology stack used.\nclear       Clears the terminal history.\nhelp        Displays this list of commands.\ndemo        Run a simple command demo.\nexit        Exit the current mode.", 
-    about: "<strong class=\"title-strong\">PROJECT TERMINAL</strong>\n\nThis interface showcases Donaven Bruce's backend and service development work.\n\n- Focus: RESTful API design, Java & Spring Boot frameworks.\n\n- Connect: View source code on GitHub or contact via LinkedIn (links available in the sidebar).\n\nFuture Plans:\n\nThe current service will be integrated with a client-side frontend (React/JavaScript) soon.",
+    projects: function(args) {
+        const parts = args.trim().toLowerCase().split(' ');
+        const subcommand = parts[0];
+        const projectName = parts.slice(1).join(' ').replace(/"/g, '').trim(); 
+
+        if (subcommand === 'show' && projectName) {
+            return formatProjectDetail(projectName, window.projectData);
+        }
+        
+        if (!args || args.trim() === '' || subcommand === 'list') {
+             return formatProjectSummary(window.projectData);
+        }
+
+        return `Error: Invalid argument '${args}'. Usage:\n  projects\n  projects show "<name>"`;
+    },
+    about: "<strong class=\"title-strong\">PROJECT TERMINAL</strong>\n\nThis interface showcases Donaven Bruce's backend and service development work.\n\n- Focus: RESTful API design, Java & Spring Boot frameworks.\n\n- Connect: View source code on GitHub or contact via LinkedIn (links available in the sidebar).\n\nFuture Plans:\n\nThe current service will be integrated with a client-side frontend (React/JavaScript) soon.",
     stack: "<strong class=\"title-strong\">Current Stack Breakdown</strong>\n\nProject: **String Puzzles API**\n\n- Language: Java 21\n\n- Framework: Spring Boot 3.x\n\n- Architecture: RESTful Monolith Service\n\n- Status: Stable, Ready for client integration.",
     clear: 'CLEAR'
 };
