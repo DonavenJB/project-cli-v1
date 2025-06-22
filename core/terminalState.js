@@ -67,5 +67,14 @@ demo: function() {
         output += "\n";
         
         return output;
+    },
+
+    exit: function() {
+    	  if (window.currentMode === 'demo') {
+    	 	 window.currentMode = 'cli';
+    	 	 updateLivePromptPrefix(); 
+    	 	 return "Exiting Demo Mode. Back to main terminal.";
+    	  }
+    	  return "You aren't currently running a program or in a special mode.";
     }
 };
