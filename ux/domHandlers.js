@@ -1,3 +1,5 @@
+// Implementation of the Terminal UX Module to manage input/output elements, handle user command input, animate the welcome typewriter, maintain command history, and control terminal focus and navigation.
+
 // Simulates a CLI typewriter effect by typing `text` into the .command-input placeholder
 function typeWriter(text, targetElement, speed = 25) {
     let i = 0;

@@ -1,19 +1,26 @@
+// Implementation of the Command Definitions Module to define terminal commands, manage CLI/demo modes, and generate dynamic prompt output.
+
 window.currentMode = 'cli';
 let typingInterval = null;
 
+// Prompt prefix utilities
+// Returns the current prompt prefix based on CLI or Demo mode
 function getPromptPrefix() {
     return window.currentMode === 'demo' ? 'visitor@demo' : 'visitor@cli';
 }
 
+// Creates a dynamic prompt line for a given text input
 function createDynamicPromptHTML(text) {
     const prefix = getPromptPrefix();
     return '<span class="prompt-prefix-container"><span class="prompt-text-prefix">' + prefix + '</span><span class="prompt-symbol">></span></span><span class="wrapped-output">' + String(text) + '</span>';
 }
 
+// Creates a safe prompt line always showing CLI prefix
 function safeCreatePromptHTML(text) {
     return '<span class="prompt-prefix-container"><span class="prompt-text-prefix">visitor@cli</span><span class="prompt-symbol">></span></span><span class="wrapped-output">' + String(text) + '</span>';
 }
 
+// Updates the live prompt prefix in the terminal
 function updateLivePromptPrefix() {
     const promptPrefixElements = document.querySelectorAll('.prompt-text-prefix');
     const promptSymbolElement = document.querySelector('.prompt-symbol');
@@ -27,10 +34,12 @@ function updateLivePromptPrefix() {
     }
 }
 
-
+// Command definitions
 window.commands = {
+    // Help command showing all available commands
     help: "Available commands:\nabout       View information about the creator.\nprojects    View details of my projects.\nstack       View the technology stack used.\nclear       Clears the terminal history.\nhelp        Displays this list of commands.\ndemo        Run a simple command demo.\nexit        Exit the current mode.", 
     
+    // Projects command to list projects or show details
     projects: function(args) {
         const parts = args.trim().toLowerCase().split(' ');
         const subcommand = parts[0];
@@ -47,10 +56,16 @@ window.commands = {
         return `Error: Invalid argument '${args}'. Usage:\n  projects\n  projects show "<name>"`;
     },
 
+    // About command describing the project and creator
     about: "<strong class=\"title-strong\">PROJECT TERMINAL</strong>\n\nThis interface showcases Donaven Bruce's backend and service development work.\n\n- Focus: RESTful API design, Java & Spring Boot frameworks.\n\n- Connect: View source code on GitHub or contact via LinkedIn (links available in the sidebar).\n\nFuture Plans:\n\nThe current service will be integrated with a client-side frontend (React/JavaScript) soon.",
+    
+    // Stack command showing technology stack
     stack: "<strong class=\"title-strong\">Current Stack Breakdown</strong>\n\nProject: **String Puzzles API**\n\n- Language: Java 21\n\n- Framework: Spring Boot 3.x\n\n- Architecture: RESTful Monolith Service\n\n- Status: Stable, Ready for client integration.",
+    
+    // Clear command clears terminal output
     clear: 'CLEAR',
 
+    // Demo command enters demo mode and lists available demos
     demo: function() {
         if (window.currentMode === 'demo') {
             return "Already in Demo Mode. Type 'exit' to return to the main terminal.";
@@ -70,6 +85,7 @@ window.commands = {
         return output;
     },
 
+    // Exit command exits demo mode and returns to CLI
     exit: function() {
         if (window.currentMode === 'demo') {
             window.currentMode = 'cli';
@@ -79,6 +95,7 @@ window.commands = {
         return "You aren't currently running a program or in a special mode.";
     },
 
+    // Command processor: parses input and routes to appropriate command
     process: function(input) {
         const parts = input.trim().toLowerCase().split(' ');
         const cmd = parts[0];

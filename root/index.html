@@ -1,3 +1,5 @@
+<!-- Implementation of the Project Terminal Interface HTML, providing the main terminal layout, sidebar project information, user input area, and integration with supporting scripts and styles. -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,17 +10,19 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
+    <!-- Main terminal container wrapping sidebar and CLI interface -->
     <div class="terminal-container" role="main" style="opacity: 1; display: flex;">
         <div class="terminal-wrapper">
             <div class="terminal" role="application" aria-label="Project Terminal Interface">
                 
+                <!-- Sidebar with profile image, project overview, contact links, and skills stack -->
                 <div class="terminal-sidebar" role="complementary" aria-label="Project Information">
                     <img src="img.jpg" alt="Donaven Bruce Profile Photo" class="profile-photo" loading="lazy">
                     <div class="project-title">
                         DONAVEN BRUCE:<br>CODE PROJECTS
                     </div>
                     
+                    <!-- Project description and call-to-action links -->
                     <div class="project-details">
                         <div class="project-tagline">Java Backend Solutions and REST API Development</div>
                         <div class="contact-cta">
@@ -34,7 +38,7 @@
                             This project is a demonstration of backend service development using <strong class="title-strong">Java</strong> and the <strong class="title-strong">Spring Boot</strong> framework. It exposes a simple <strong class="title-strong">REST API</strong>, showcasing proficiency in building well-structured, modular backend logic.
                         </div>
                     </div>
-
+                    <!-- Skills section showcasing key technologies and expertise -->
                     <div class="skills-section">
                         <div class="skills-title" style="text-align: center;">Key Skills & Stack</div>
                         <div class="skills-title" style="text-align: center;">Java / Spring Boot / React / JavaScript</div>
@@ -46,7 +50,7 @@
                         </div>
                     </div>
                 </div>
-
+                <!-- Main CLI terminal section with header, output container, and input prompt -->
                 <div class="terminal-main" role="region" aria-label="Terminal Interface">
                     <div class="terminal-header">
                         <div class="terminal-header-left">
@@ -58,7 +62,7 @@
                         <div class="terminal-header-right">
                         </div>
                     </div>
-
+                    <!-- Terminal content: output logs and user input field -->
                     <div class="terminal-content">
                         <div class="output-container" role="log" aria-live="polite"></div>
                         <div class="prompt">
@@ -76,7 +80,7 @@
             </div>
         </div>
     </div>
-
+    <!-- Integration of supporting JS scripts for analytics, project data, utilities, terminal state, and DOM event handling -->
     <script src="../data/analytics.js"></script>
     <script src="../data/projectData.js"></script>
     <script src="../lib/utils.js"></script>

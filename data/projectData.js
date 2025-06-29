@@ -1,12 +1,15 @@
 // Implementation of the Data Module to define the list of available projects, 
 // their details, and the demo programs for the application's content.
 
+// Demo programs available for the terminal interface
 window.demos = {
     "string-puzzles": "String Puzzles API: Tests for Anagrams, Palindromes, and Substrings.",
 };
 
+// Project data array containing detailed information for each project
 window.projectData = [
     {
+        // Project name and active status
         name: "String Puzzles API",
         status: "Online and Functional",
         endpoint: "POST /api/string-puzzle",
@@ -16,6 +19,7 @@ window.projectData = [
         isActive: true
     },
     {
+        // CLI Terminal UI project details
         name: "CLI Terminal UI",
         status: "Maintenance Mode",
         endpoint: "N/A (Frontend Only)",
