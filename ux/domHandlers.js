@@ -149,7 +149,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     historyIndex = -1;
                     
                     // Process the command using the global commands object
-                    const result = window.commands.process(val);
+                    const result = await window.commands.process(val);
                     
                     if (result !== undefined && result !== null && result !== '') { 
                         

@@ -1,4 +1,4 @@
-// Implementation of the Command Definitions Module to define terminal commands, manage CLI/demo modes, and generate dynamic prompt output.
+// Implementation of the Command Definitions Module to define terminal commands, manage CLI/demo modes, generate dynamic prompt output and wire frontend demo command to backend API with fetch..
 
 window.currentMode = 'cli';
 let typingInterval = null;
@@ -62,6 +62,8 @@ window.commands = {
     // Stack command showing technology stack
     stack: "<strong class=\"title-strong\">Current Stack Breakdown</strong>\n\nProject: **String Puzzles API**\n\n- Language: Java 21\n\n- Framework: Spring Boot 3.x\n\n- Architecture: RESTful Monolith Service\n\n- Status: Stable, Ready for client integration.",
     
+
+
     // Clear command clears terminal output
     clear: 'CLEAR',
 
@@ -96,7 +98,7 @@ window.commands = {
     },
 
     // Command processor: parses input and routes to appropriate command
-    process: function(input) {
+    process: async function(input) {
         const parts = input.trim().toLowerCase().split(' ');
         const cmd = parts[0];
         const args = input.trim().substring(cmd.length).trim(); 
@@ -106,11 +108,60 @@ window.commands = {
         }
         
         if (window.currentMode === 'demo') {
-            if (cmd in window.demos) {
-                return `Starting **${cmd}** demo: ${window.demos[cmd]} \n(Actual implementation coming soon. Type 'exit' to quit this demo.)`;
-            } else if (cmd === 'demo') {
+            if (cmd === 'demo') {
                 return this.demo();
-            } else {
+            }
+
+            // Check if the command is our 'string-puzzles' demo
+            if(cmd === 'string-puzzles') {
+                // Parse the arguments from the 'args' variable
+                const parts = args.match(/"(.*?)"/g) || [];
+                if(parts.length < 2) {
+                    return "Usage: string-puzzles \"<text1>\" \"<text2>\"";
+                }
+
+                const text1 = parts[0].replace(/"/g, '');
+                const text2 = parts[1].replace(/"/g, '');
+
+                // Create the data payoad
+                const data = { text1: text1, text2: text2 };
+
+                // Call the API using fetch()
+                try {
+                    //use port 8080
+                    const response = await fetch('http://localhost:8081/api/string-puzzle', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json'},
+                        body: JSON.stringify(data)
+                    });
+
+                    if(!response.ok) {
+                        return `Error from API" ${response.status} ${response.statusText}`;
+                    }
+
+                    // Get and rformat the results
+                    const results = await response.json();
+
+                    let output = "<strong class=\"title-strong\">-- String Puzzle Results --</strong>\n";
+                    output += `  Text 1: "${text1}"\n`;
+                    output += `  Text 2: "${text2}"\n\n`;
+                    output += `  Is "${text1}" a palindrome?  **${results.isPalindrome1}**\n`;
+                    output += `  Is "${text2}" a palindrome?  **${results.isPalindrome2}**\n`;
+                    output += `  Are they anagrams?            **${results.areAnagrams}**\n`;
+                    output += `  Is text2 a substring of text1? **${results.isSubString}**`;
+                    return output;
+
+                } catch (error) {
+                    console.error('Fetch error:', error);
+                    return "Error: Could not connect to the API."
+                }
+            }
+            // Check if they typed another demo name that isn't implemented
+            else if(cmd in window.demos) {
+                return `Demo **${cmd}** is not yet implemented.`;
+            }
+            // Handle unknown commands in demo mode
+            else {
                 return `Unknown command **${cmd}**. Type 'demo' to view available programs, or 'exit'.`;
             }
         }
