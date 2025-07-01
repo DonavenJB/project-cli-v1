@@ -129,7 +129,7 @@ window.commands = {
                 // Call the API using fetch()
                 try {
                     //use port 8080
-                    const response = await fetch('http://localhost:8081/api/string-puzzle', {
+                    const response = await fetch('http://localhost:8080/api/string-puzzle', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json'},
                         body: JSON.stringify(data)

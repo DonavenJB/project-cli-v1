@@ -1,38 +1,5 @@
 // Implementation of the Terminal UX Module to manage input/output elements, handle user command input, animate the welcome typewriter, maintain command history, and control terminal focus and navigation.
 
-// Simulates a CLI typewriter effect by typing `text` into the .command-input placeholder
-function typeWriter(text, targetElement, speed = 25) {
-    let i = 0;
-    const liveInput = document.querySelector('.command-input');
-        // If there's no input element to type into, abort quietly (useful for non-CLI pages)
-    if (!liveInput) return;
-    const originalPlaceholder = liveInput.placeholder || '';
-    function type() {
-        if (i < text.length) {
-            // Append the next char to the placeholder and schedule the next tick
-            liveInput.setAttribute('placeholder', liveInput.getAttribute('placeholder') + text.charAt(i));
-            i++;
-            typingInterval = setTimeout(type, speed);
-        } else {
-            clearTimeout(typingInterval);
-             // Create a read-only prompt echo of the typed text and restore the original placeholder
-            const outputContainer = document.querySelector('.output-container');
-            const terminal = document.querySelector('.terminal-content');
-            const finalTypedText = liveInput.getAttribute('placeholder') || '';
-            liveInput.setAttribute('placeholder', originalPlaceholder);
-            const finalPromptEcho = document.createElement('div');
-            finalPromptEcho.className = 'prompt echo-line';
-            finalPromptEcho.innerHTML = safeCreatePromptHTML(finalTypedText); 
-            outputContainer.appendChild(finalPromptEcho);
-            liveInput.style.display = 'block';
-            if (terminal) terminal.scrollTop = terminal.scrollHeight;
-        }
-    }
-    liveInput.style.display = 'block';
-    liveInput.setAttribute('placeholder', '');
-    type();
-}
-
 document.addEventListener('DOMContentLoaded', function() {
     const input = document.querySelector('.command-input');
     const output = document.querySelector('.output-container');
@@ -54,34 +21,6 @@ document.addEventListener('DOMContentLoaded', function() {
     function scrollToBottom() {
         if (terminal) terminal.scrollTop = terminal.scrollHeight;
     }
-    window.originalKeydownHandler = function(e) {
-        if (e.key === 'Enter') {
-            const cmd = this.value.trim();
-            if (cmd) {
-                const promptLine = document.createElement('div');
-                promptLine.className = 'prompt echo-line';
-                
-                promptLine.innerHTML = createDynamicPromptHTML(cmd); 
-                output.appendChild(promptLine);
-                
-                const result = window.commands.process(cmd);
-                if (result) {
-                    const outputLine = document.createElement('div');
-                    outputLine.className = 'output';
-                    if (result instanceof HTMLElement) {
-                        outputLine.appendChild(result);
-                    } else {
-                        outputLine.innerHTML = formatOutputForHTML(result);
-                    }
-                    output.appendChild(outputLine);
-                }
-                this.value = '';
-                scrollToBottom();
-            }
-        }
-    };
-    if (input) input.addEventListener('keydown', window.originalKeydownHandler);
-    // Cache references to input and output elements
     const inputElement = document.querySelector('.command-input');
     const outputContainer = document.querySelector('.output-container');
 
@@ -110,6 +49,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 typingInterval = setTimeout(type, typingSpeed);
             } else {
                 clearTimeout(typingInterval);
+                typingInterval = null;
                 // Echo the final welcome message in the terminal
                 const finalPromptEcho = document.createElement('div');
                 finalPromptEcho.className = 'prompt echo-line';
