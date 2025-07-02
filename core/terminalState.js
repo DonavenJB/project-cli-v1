@@ -136,7 +136,7 @@ window.commands = {
                     });
 
                     if(!response.ok) {
-                        return `Error from API" ${response.status} ${response.statusText}`;
+                        return `Error from API: ${response.status} ${response.statusText}`;
                     }
 
                     // Get and rformat the results
