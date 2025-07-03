@@ -145,10 +145,10 @@ window.commands = {
                     let output = "<strong class=\"title-strong\">-- String Puzzle Results --</strong>\n";
                     output += `  Text 1: "${text1}"\n`;
                     output += `  Text 2: "${text2}"\n\n`;
-                    output += `  Is "${text1}" a palindrome?  **${results.isPalindrome1}**\n`;
-                    output += `  Is "${text2}" a palindrome?  **${results.isPalindrome2}**\n`;
+                    output += `  Is "${text1}" a palindrome?  **${results.palindrome1}**\n`;
+                    output += `  Is "${text2}" a palindrome?  **${results.palindrome2}**\n`;
                     output += `  Are they anagrams?            **${results.areAnagrams}**\n`;
-                    output += `  Is text2 a substring of text1? **${results.isSubString}**`;
+                    output += `  Is text2 a substring of text1? **${results.subString}**`;
                     return output;
 
                 } catch (error) {
